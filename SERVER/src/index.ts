@@ -1,11 +1,16 @@
-const { request, response} = require("express");
 import express from 'express'
+import dotenv from 'dotenv'
+const { request, response} = require("express");
 const { Server } = require("socket.io")
 const app = express();
 const helmet = require("helmet")
 const cors = require("cors")
 const server = require("http").createServer(app)
 const authRouter = require("./router/authRouter")
+
+dotenv.config()
+
+let port = process.env.PORT || '8080'
 
 const io = new Server( server, {
     cors:{
@@ -31,6 +36,6 @@ io.on('connect', (socket: Function) => {
 
 })
 
-server.listen(8080, () =>{
-    console.log("Server listening on port 8080");
+server.listen(port, () =>{
+    console.log(`Server listening on port ${port}`);
 })
