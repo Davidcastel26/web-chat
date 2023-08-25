@@ -4,11 +4,11 @@ import {
     Heading,
     Button } from '@chakra-ui/react'
 import { Formik, Form } from 'formik'
-import * as Yup from "yup"
+// import * as Yup from "yup"
 import { Textfield } from './textfield'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { useNavigate } from 'react-router';
-
+import { formSchema } from '../../../common-formSchema'
 
 export const Sigup = () => {
 
@@ -17,16 +17,7 @@ export const Sigup = () => {
     return (
         <Formik 
             initialValues={{ username: "", password:""}}
-            validationSchema={Yup.object({
-            username: Yup.string()
-                .required("Username required!")
-                .min(6,"username too short!")
-                .max(28, "username too long!"),
-            password: Yup.string()
-                .required("Password required.")
-                .min(5, "password too short.")
-                .max(20, "password to long")
-            })}
+            validationSchema={formSchema}
             onSubmit={(values:any, actions:any) => {
                 const vals = {...values}
                 actions.resetForm()

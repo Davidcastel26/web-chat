@@ -1,4 +1,5 @@
-const express = require("express");
+const { request, response} = require("express");
+import express from 'express'
 const { Server } = require("socket.io")
 const app = express();
 const helmet = require("helmet")
@@ -20,13 +21,13 @@ app.use(cors({
 }))
 app.use(express.json());
 
-app.get('/', (req, res) => {
+app.get('/', (req: typeof request, res: typeof response) => {
     res.json("hey")
 })
 
 app.use("/auth", authRouter)
 
-io.on('connect', socket => {
+io.on('connect', (socket: Function) => {
 
 })
 

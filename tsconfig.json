@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "common-formSchema.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
