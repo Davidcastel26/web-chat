@@ -1,4 +1,4 @@
-
+// import {IntrinsicAttributes} from 'react'
 import {
     Field,
     useField} from "formik"
@@ -12,7 +12,7 @@ import { Input } from '@chakra-ui/input'
 interface TextFiledProps {
     label: string
     props: {
-        name:string
+        name:any
         placeholder:string
         autoComplete:string
         type:string
