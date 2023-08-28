@@ -1,7 +1,6 @@
 import express from 'express'
 import session from 'express-session'
 const dotenv = require('dotenv')
-const { request, response} = require("express");
 const { Server } = require("socket.io")
 const app = express();
 const helmet = require("helmet")

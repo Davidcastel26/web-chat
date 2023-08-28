@@ -11,27 +11,46 @@ import { Input } from '@chakra-ui/input'
 
 interface TextFiledProps {
     label: string
-    props: {
-        name:any
-        placeholder:string
-        autoComplete:string
-        type:string
-    }
+    // props: {
+    //     name:any
+    //     placeholder:string
+    //     autoComplete:string
+    //     type:string
+    // }
+    name:string
+    placeholder:string
+    autoComplete:string
+    type:string
+    
 }
 
 export const Textfield: React.FC<TextFiledProps> = (
     {
         label,
-        ...props
+        // ...props 
+        name,
+        placeholder,
+        autoComplete,
+        type
     }
 ) => {
   
-    const [field, meta] = useField(props)
+    const [field, meta] = useField(name)
+
+    const isBooleand = meta.touched && meta.error ? true : false
 
   return (
-    <FormControl isInvalid={meta.touched && meta.error}>
+    <FormControl isInvalid={isBooleand}>
         <FormLabel>{label}</FormLabel>
-        <Input as={Field} {...field} {...props}/>
+        {/* <Input as={Field} {...field} {...props}/> */}
+        <Input 
+            as={Field} 
+            {...field} 
+            name={name}
+            placeholder={placeholder}
+            autoComplete={autoComplete}
+            type={type}
+        />
         <FormErrorMessage>{meta.error}</FormErrorMessage>
     </FormControl>
   )

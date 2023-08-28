@@ -8,40 +8,45 @@ import { Formik, Form } from 'formik'
 // import * as Yup from "yup"
 import { Textfield } from './textfield'
 import {useNavigate} from 'react-router'
-import { formSchema } from '../../../common-formSchema'
+import { formSchema4Login } from '../../../common-formSchema'
 // const { formSchema } = require("../../../common-formSchema")
 export const Login = () => {
 
     const navigate = useNavigate()
 
+    const submitt = (values:any, actions:any) => {
+
+        console.log('submiteand al gran puta pero en minusculas');
+
+        const vals = {...values}
+            actions.resetForm()
+            fetch("http://localhost:8080/auth/login", {
+                method: "POST",
+                credentials:"include",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(vals)
+            }).catch( err => {
+                console.log(err);
+                return
+            }).then(res => {
+                if(!res || !res.ok || res.status >= 400){
+                    return
+                }
+                return res.json()
+            })
+            .then(data => { 
+                if(!data) return
+                console.log(data);
+            })
+    }
+
   return (
     <Formik 
-        initialValues={{ username: "", password:""}}
-        validationSchema={ formSchema }
-        onSubmit={(values:any, actions:any) => {
-            const vals = {...values}
-                actions.resetForm()
-                fetch("http://localhost:8080/auth/login", {
-                    method: "POST",
-                    credentials:"include",
-                    headers:{
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(vals)
-                }).catch( err => {
-                    // console.log(err);
-                    return
-                }).then(res => {
-                    if(!res || !res.ok || res.status >= 400){
-                        return
-                    }
-                    return res.json()
-                })
-                .then(data => { 
-                    console.log(data);
-                    if(!data) return
-                })
-        }}
+        initialValues={{ name: "", password:""}}
+        validationSchema={ formSchema4Login }
+        onSubmit={submitt}
     >
 
         <VStack 
@@ -54,7 +59,7 @@ export const Login = () => {
         >
             <Heading> Log In</Heading>
 
-            <Textfield label="Username" name="username" placeholder="Enter username" autoComplete="off" type="text" />
+            <Textfield label="Username" name="name" placeholder="Enter username" autoComplete="off" type="text" />
             <Textfield label="Password" name="password" placeholder="Enter password" autoComplete="off" type="password" />
 
             <ButtonGroup>

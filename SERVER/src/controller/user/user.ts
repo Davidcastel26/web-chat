@@ -86,8 +86,7 @@ export const loginUser = async(
 
         const potentialLogin = await prismadb.user.findFirst({
             where:{
-                name,
-                password
+                name
             }
         })
 
@@ -95,7 +94,7 @@ export const loginUser = async(
 
             return res.status(400).json({msg:'Username / Pass are not correct'})
 
-        }else{
+        }
 
             const isValidPass = await bcryptjs.compareSync(
                 password, potentialLogin.password
@@ -114,7 +113,7 @@ export const loginUser = async(
                 loggedIn: true,
                 user: potentialLogin.name
             })
-        }
+    
 
     } catch (error) {
         next(error)        
