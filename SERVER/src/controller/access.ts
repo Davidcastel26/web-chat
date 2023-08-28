@@ -2,7 +2,6 @@
 const { formSchema } = require("../helpers/common-formSchema")
 import { Request, Response } from 'express'
 // import {formSchema} from '../../common-formSchema'
-import prismadb from '../models/prismadb'
 
 const access = (req: Request, res: Response) => {
 
@@ -16,7 +15,7 @@ const access = (req: Request, res: Response) => {
         })
         .then( (valid:any) => {
             if(valid){
-                res.status(200).send()
+                // res.status(200).send()
                 console.log("form is good in server");
             }
         })

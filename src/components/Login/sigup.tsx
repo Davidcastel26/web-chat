@@ -55,6 +55,7 @@ export const Sigup = () => {
         <Heading> Sig Up</Heading>
 
             <Textfield label="Username" name="username" placeholder="Enter username" autoComplete="off" type="text" />
+            <Textfield label="Email" name="emial" placeholder="Enter email" autoComplete="off" type="email" />
             <Textfield label="Password" name="password" placeholder="Enter password" autoComplete="off" type="password" />
 
             <ButtonGroup>

@@ -1,12 +1,14 @@
 import express from 'express'
-import dotenv from 'dotenv'
+const dotenv = require('dotenv')
 const { request, response} = require("express");
 const { Server } = require("socket.io")
 const app = express();
 const helmet = require("helmet")
 const cors = require("cors")
-const server = require("http").createServer(app)
 const authRouter = require("./router/authRouter")
+const session = require("express-session")
+
+const server = require("http").createServer(app)
 
 dotenv.config()
 
@@ -25,8 +27,23 @@ app.use(cors({
     credentials: true
 }))
 app.use(express.json());
+app.use( session({
+    secret: process.env.COOKIE_SECRET,
+    credentials: true,
+    name: "sid",
+    resave: false,
+    saveUninitialzed: false,
+    cookie: {
+        secure: process.env.environment === "production",
+        httpOnly: true,
+        sameSite: process.env.environment === "production" ? "none":"lax",
+    }
+}))
 
-app.get('/', (req: typeof request, res: typeof response) => {
+app.get('/', (
+    req: typeof request, 
+    res: typeof response
+) => {
     res.json("hey")
 })
 
