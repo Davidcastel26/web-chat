@@ -1,8 +1,8 @@
 // import * as Yup  from 'yup';
 const Yup = require("yup")
 
-const formSchema = Yup.object({
-    username: Yup.string()
+export const formSchema = Yup.object({
+    name: Yup.string()
         .required("Username requires")
         .min(6, "Username too short not accepted in the server")
         .max(18, "Username too long not accepted in the server"),
@@ -16,6 +16,4 @@ const formSchema = Yup.object({
         .max(18, "Password too long not accepted in the server")
 })
 
-module.exports = {
-    formSchema
-}
+// module.exports = formSchema

@@ -1,13 +1,13 @@
 import bcryptjs from 'bcryptjs'
 import prismadb from '../../models/prismadb'
-import {User} from '../../ts/interface'
+import {UserInterface} from '../../ts/interface'
 
 const {access} = require("../access")
 const {request, response, NextFunction} = require('express')
 
 const salt = bcryptjs.genSaltSync()
 
-export const postUser = async(
+export const register = async(
     req: typeof request,
     res: typeof response,
     next: typeof NextFunction
@@ -15,12 +15,14 @@ export const postUser = async(
     
     access(req, res);
 
-    const { username, email, password } = req.body;
+    const { name, email, password }: UserInterface = req.body;
+
+    
 
     try {
 
-        const newUser: User = {
-            name: username,
+        let newUser: UserInterface = {
+            name,
             email,
             password
         }
@@ -34,7 +36,7 @@ export const postUser = async(
             }
         })
 
-        if(exsitingUser.email || exsitingUser.name){
+        if(exsitingUser){
 
             return res.status(409).json({
                 msg:`${newUser.email} and ${newUser.name} is already in use`
@@ -42,7 +44,7 @@ export const postUser = async(
 
         }else{
 
-            await prismadb.user.create({
+            const userr = await prismadb.user.create({
                 data: { 
                     name: newUser.name,
                     email: newUser.email,
@@ -50,6 +52,11 @@ export const postUser = async(
                 }
             })
 
+            req.session.user = { 
+                name: userr.name,
+                id: userr.idUser
+
+            }
             return res.status(201).json({
                 newUser
             })
@@ -60,4 +67,33 @@ export const postUser = async(
         next(error)
     }
 
+}
+
+export const loginUser = async(
+    req: typeof request,
+    res: typeof response,
+    next: typeof NextFunction
+) => {
+
+}
+
+export const getAllUsers =async (
+    req:  typeof request,
+    res:  typeof response,
+    next: typeof NextFunction
+) => {
+
+
+    try {
+        
+        const users = await prismadb.user.findMany()
+
+        res.json({
+            msg:'Here all users',
+            users
+        })
+    } catch (error) {
+        next(error)
+    }
+    
 }

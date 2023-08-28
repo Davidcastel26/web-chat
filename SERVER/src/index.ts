@@ -1,4 +1,5 @@
 import express from 'express'
+import session from 'express-session'
 const dotenv = require('dotenv')
 const { request, response} = require("express");
 const { Server } = require("socket.io")
@@ -6,7 +7,7 @@ const app = express();
 const helmet = require("helmet")
 const cors = require("cors")
 const authRouter = require("./router/authRouter")
-const session = require("express-session")
+// const session = require("express-session")\
 
 const server = require("http").createServer(app)
 
@@ -29,25 +30,19 @@ app.use(cors({
 app.use(express.json());
 app.use( session({
     secret: process.env.COOKIE_SECRET,
-    credentials: true,
+    // credentials: true,
     name: "sid",
     resave: false,
-    saveUninitialzed: false,
+    saveUninitialized: false,
     cookie: {
-        secure: process.env.environment === "production",
+        secure: process.env.ENVIRONMENT === "production",
         httpOnly: true,
-        sameSite: process.env.environment === "production" ? "none":"lax",
+        sameSite: process.env.ENVIRONMENT === "production" ? "none":"lax",
     }
 }))
 
-app.get('/', (
-    req: typeof request, 
-    res: typeof response
-) => {
-    res.json("hey")
-})
-
 app.use("/auth", authRouter)
+
 
 io.on('connect', (socket: Function) => {
 

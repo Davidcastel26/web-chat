@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "@types/express-session": "^1.17.7",
     "prisma": "^5.2.0"
   }
 }
