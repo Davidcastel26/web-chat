@@ -1,8 +1,8 @@
 import bcryptjs from 'bcryptjs'
 import prismadb from '../../models/prismadb'
 import {UserInterface} from '../../ts/interface'
-
-const {access} = require("../access")
+import { loginValidation, validationsRegister } from '../../controller/access'
+// const {access} = require("../access")
 const {request, response, NextFunction} = require('express')
 
 const salt = bcryptjs.genSaltSync()
@@ -13,11 +13,9 @@ export const register = async(
     next: typeof NextFunction
 ) => {
     
-    access(req, res);
+    validationsRegister(req, res);
 
     const { name, email, password }: UserInterface = req.body;
-
-    
 
     try {
 
@@ -64,7 +62,12 @@ export const register = async(
         
         
     } catch (error) {
+
         next(error)
+
+        return res.status(500).json({
+            msg:'Go with admin'
+        })
     }
 
 }
@@ -74,6 +77,48 @@ export const loginUser = async(
     res: typeof response,
     next: typeof NextFunction
 ) => {
+
+    loginValidation(req, res)
+
+    const { name, password } = req.body
+
+    try {
+
+        const potentialLogin = await prismadb.user.findFirst({
+            where:{
+                name,
+                password
+            }
+        })
+
+        if(!potentialLogin){
+
+            return res.status(400).json({msg:'Username / Pass are not correct'})
+
+        }else{
+
+            const isValidPass = await bcryptjs.compareSync(
+                password, potentialLogin.password
+            )
+    
+            if(!isValidPass){
+                return res.status(400).json({msg:'Username / Pass are not correct'})
+            }
+
+            req.session.user = {
+                name: potentialLogin.name,
+                id: potentialLogin.idUser
+            }
+
+            return res.status(200).json({
+                loggedIn: true,
+                user: potentialLogin.name
+            })
+        }
+
+    } catch (error) {
+        next(error)        
+    }
 
 }
 

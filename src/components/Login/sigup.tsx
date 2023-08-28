@@ -16,7 +16,7 @@ export const Sigup = () => {
 
     return (
         <Formik 
-            initialValues={{ username: "", password:""}}
+            initialValues={{ name: "", password:""}}
             validationSchema={formSchema}
             onSubmit={(values:any, actions:any) => {
                 const vals = {...values}
@@ -54,7 +54,7 @@ export const Sigup = () => {
         >
         <Heading> Sig Up</Heading>
 
-            <Textfield label="Username" name="username" placeholder="Enter username" autoComplete="off" type="text" />
+            <Textfield label="Username" name="name" placeholder="Enter username" autoComplete="off" type="text" />
             <Textfield label="Email" name="emial" placeholder="Enter email" autoComplete="off" type="email" />
             <Textfield label="Password" name="password" placeholder="Enter password" autoComplete="off" type="password" />
 
