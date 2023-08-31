@@ -42,16 +42,17 @@ export const AccountProvider: React.FC<AccountProviderProps>= ({children}) => {
     useEffect(()=>{
         fetch('http://localhost:8080/auth/login',{
             method: 'GET',
-            credentials: "include",
-
+            credentials: "include"
         }).catch( err => {
             console.log(err)
             setUser({loggedIn: false})
+            // console.log('false logged in')
             return;
 
         }).then(r => {
 
-            if(!r || r.ok || r.status >= 400 ){
+            if(!r || !r.ok || r.status >= 400 ){
+                console.log('false logged in', r)
                 setUser({loggedIn: false})
                 return;
             }
@@ -59,12 +60,14 @@ export const AccountProvider: React.FC<AccountProviderProps>= ({children}) => {
 
         }).then( (data:any) => { 
             if(!data){
+                console.log('false logged in', data)
                 setUser({loggedIn: false})
                 return;
             }
-            console.log(data);
+            console.log('logged in papi');
             setUser({...data})
             navigate('/home')
+            return
         })
     },[])
 

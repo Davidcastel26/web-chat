@@ -161,7 +161,7 @@ export const userLogin = async (
         if(loggedUser.user && loggedUser.user.name) {
             res.status(200).json({
                 loggedIn: true,
-                username: loggedUser.user.name
+                name: loggedUser.user.name
             })
         }else{
             res.json({ loggedIn: false })

@@ -20,7 +20,7 @@ export const Login = () => {
 
     const submitt = (values:any, actions:any) => {
 
-        console.log('submiteand al gran puta pero en minusculas');
+        // console.log('submiteand al gran puta pero en minusculas');
 
         const vals = {...values}
             actions.resetForm()
@@ -42,7 +42,7 @@ export const Login = () => {
             })
             .then(data => { 
                 if(!data) return
-                console.log(data);
+                // console.log(data);
                 setUser({...data})
                 navigate('/home')
             })

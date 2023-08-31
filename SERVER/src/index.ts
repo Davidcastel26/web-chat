@@ -5,8 +5,9 @@ const { Server } = require("socket.io")
 const app = express();
 const helmet = require("helmet")
 const cors = require("cors")
-const authRouter = require("./router/authRouter")
+// const authRouter = require("./router/authRouter")
 // const session = require("express-session")\
+import router from './router/authRouter';
 
 const server = require("http").createServer(app)
 
@@ -41,7 +42,7 @@ app.use( session({
     }
 }))
 
-app.use("/auth", authRouter)
+app.use("/auth", router)
 
 
 io.on('connect', (socket: Function) => {

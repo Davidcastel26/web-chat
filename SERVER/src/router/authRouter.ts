@@ -8,11 +8,14 @@ import {
 const express =require("express")
 const router = express.Router()
 
-router.post("/login", loginUser )
-router.get("/login", userLogin )
+router
+    .route("/login")    
+    .get( userLogin )
+    .post(loginUser )
 
 router.post("/signup", register)
 
 router.get("/users", getAllUsers)
 
-module.exports = router;
+// module.exports = router;
+export default router;
