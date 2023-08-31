@@ -1,3 +1,5 @@
+// import { useContext } from 'react'
+import {useNavigate} from 'react-router'
 
 import { 
         VStack, 
@@ -5,12 +7,14 @@ import {
         Heading,  
         Button } from '@chakra-ui/react'
 import { Formik, Form } from 'formik'
-// import * as Yup from "yup"
+
 import { Textfield } from './textfield'
-import {useNavigate} from 'react-router'
 import { formSchema4Login } from '../../../common-formSchema'
-// const { formSchema } = require("../../../common-formSchema")
+import { useAccountContext } from '../../hooks/AccountContext'
+
 export const Login = () => {
+
+    const { setUser } = useAccountContext()
 
     const navigate = useNavigate()
 
@@ -39,6 +43,8 @@ export const Login = () => {
             .then(data => { 
                 if(!data) return
                 console.log(data);
+                setUser({...data})
+                navigate('/home')
             })
     }
 

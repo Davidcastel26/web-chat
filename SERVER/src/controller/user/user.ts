@@ -2,6 +2,7 @@ import bcryptjs from 'bcryptjs'
 import prismadb from '../../models/prismadb'
 import {UserInterface} from '../../ts/interface'
 import { loginValidation, validationsRegister } from '../../controller/access'
+import session from 'express-session';
 // const {access} = require("../access")
 const {request, response, NextFunction} = require('express')
 
@@ -56,6 +57,7 @@ export const register = async(
 
             }
             return res.status(201).json({
+                loggedIn: true,
                 newUser
             })
         }
@@ -79,6 +81,8 @@ export const loginUser = async(
 ) => {
 
     loginValidation(req, res)
+    // console.log(req.session);
+    
 
     const { name, password } = req.body
 
@@ -96,23 +100,23 @@ export const loginUser = async(
 
         }
 
-            const isValidPass = await bcryptjs.compareSync(
-                password, potentialLogin.password
-            )
+        const isValidPass = await bcryptjs.compareSync(
+            password, potentialLogin.password
+        )
     
-            if(!isValidPass){
-                return res.status(400).json({msg:'Username / Pass are not correct'})
-            }
+        if(!isValidPass){
+            return res.status(400).json({msg:'Username / Pass are not correct'})
+        }
 
-            req.session.user = {
-                name: potentialLogin.name,
-                id: potentialLogin.idUser
-            }
+        req.session.user = {
+            name: potentialLogin.name,
+            id: potentialLogin.idUser
+        }
 
-            return res.status(200).json({
-                loggedIn: true,
-                user: potentialLogin.name
-            })
+        return res.status(200).json({
+            loggedIn: true,
+            user: potentialLogin.name
+        })
     
 
     } catch (error) {
@@ -140,4 +144,30 @@ export const getAllUsers =async (
         next(error)
     }
     
+}
+
+export const userLogin = async (
+    req:  typeof request,
+    res:  typeof response,
+    next: typeof NextFunction
+) => {
+
+    const loggedUser = req.session
+
+    // console.log(loggedUser);
+    
+
+    try {
+        if(loggedUser.user && loggedUser.user.name) {
+            res.status(200).json({
+                loggedIn: true,
+                username: loggedUser.user.name
+            })
+        }else{
+            res.json({ loggedIn: false })
+        }
+
+    } catch (error) {
+        next(error)
+    }
 }

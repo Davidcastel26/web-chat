@@ -1,13 +1,14 @@
 import ToggleColorMode from "./components/ui/ToggleColorMode"
 import { Views } from "./components/views"
+import { AccountProvider } from "./hooks/AccountContext"
 
 function App() {
 
   return (
-    <div>
+    <AccountProvider>
      <ToggleColorMode />
      <Views />
-    </div>
+    </AccountProvider>
   )
 }
 

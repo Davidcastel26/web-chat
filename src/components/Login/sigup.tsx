@@ -1,24 +1,29 @@
+// import { useContext } from 'react';
+import { useNavigate } from 'react-router';
+
 import { 
     VStack, 
     ButtonGroup, 
     Heading,
     Button } from '@chakra-ui/react'
 import { Formik, Form } from 'formik'
-// import * as Yup from "yup"
 import { Textfield } from './textfield'
 import { ArrowBackIcon } from '@chakra-ui/icons'
-import { useNavigate } from 'react-router';
+
 import { formSchema } from '../../../common-formSchema'
+import { useAccountContext } from '../../hooks/AccountContext';
+// import { useContext } from 'react';
 
 export const Sigup = () => {
 
+    const { setUser } = useAccountContext()
+    // const context  = useContext(AccountContext)
+    
     const navigate = useNavigate()
-    // 
 
     const submitt = (values:any, actions:any) => {
 
         console.log(' ESTOY SUBMITEANDO POR LA GRAN PUTA');
-        
 
         const vals = {...values}
         actions.resetForm()
@@ -40,7 +45,11 @@ export const Sigup = () => {
         })
         .then(data => { 
             if(!data) return;
-            return console.log(data);
+            
+            console.log(data);
+            setUser({...data})
+            // context?.setUser({...data})
+            navigate('/home')
         })
     }
 

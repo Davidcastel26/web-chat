@@ -1,13 +1,15 @@
 import { 
     getAllUsers,
     loginUser,
-    register 
+    register,
+    userLogin 
 } from "../controller/user/user";
 
 const express =require("express")
 const router = express.Router()
 
 router.post("/login", loginUser )
+router.get("/login", userLogin )
 
 router.post("/signup", register)
 
