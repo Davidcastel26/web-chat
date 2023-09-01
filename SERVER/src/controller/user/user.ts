@@ -1,7 +1,9 @@
 import bcryptjs from 'bcryptjs'
 import prismadb from '../../models/prismadb'
 import {UserInterface} from '../../ts/interface'
-import { loginValidation, validationsRegister } from '../../controller/access'
+import { 
+     loginValidation,
+     validationsRegister } from '../../controller/access'
 import session from 'express-session';
 // const {access} = require("../access")
 const {request, response, NextFunction} = require('express')
@@ -14,7 +16,7 @@ export const register = async(
     next: typeof NextFunction
 ) => {
     
-    validationsRegister(req, res);
+    validationsRegister(req, res, next);
 
     const { name, email, password }: UserInterface = req.body;
 
@@ -80,7 +82,7 @@ export const loginUser = async(
     next: typeof NextFunction
 ) => {
 
-    loginValidation(req, res)
+    loginValidation(req, res, next)
     // console.log(req.session);
     
 

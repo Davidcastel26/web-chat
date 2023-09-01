@@ -1,10 +1,15 @@
 // VALIDATE FORM
 // const  formSchema  = require("../helpers/common-formSchema")
+import { NextFunction, Request, Response } from 'express'
 import { formSchema, formSchemaLogin } from '../helpers/common-formSchema'
-import { Request, Response } from 'express'
+// const {request, response, NextFunction} = require('express')
 // import {formSchema} from '../../common-formSchema'
 
-export const validationsRegister = (req: Request, res: Response) => {
+export const validationsRegister = (
+    req:   Request,
+    res:   Response,
+    next:  NextFunction
+) => {
 
     let formData = req.body
 
@@ -19,13 +24,17 @@ export const validationsRegister = (req: Request, res: Response) => {
             if(valid){
                 // res.status(200).send()
                 console.log("FORM VALIDATION PASS SUCCESFULLY");
+                next()
+            }else{
+                res.status(422).send()
             }
         })
 }
 
 export const loginValidation = (
-    req: Request,
-    res: Response
+    req:   Request,
+    res:   Response,
+    next:  NextFunction
 ) => {
 
     let formData = req.body
@@ -41,6 +50,9 @@ export const loginValidation = (
             if(valid){
                 // res.status(200).send()
                 console.log("LOGIN VALIDATION SUCCESFULLY");
+                next()
+            }else{
+                res.status(422).send()
             }
         })
 

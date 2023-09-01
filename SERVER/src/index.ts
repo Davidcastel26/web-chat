@@ -1,15 +1,38 @@
-import express from 'express'
-import session from 'express-session'
+const express = require('express');
+const session = require('express-session');
 const dotenv = require('dotenv')
 const { Server } = require("socket.io")
-const app = express();
 const helmet = require("helmet")
 const cors = require("cors")
-// const authRouter = require("./router/authRouter")
-// const session = require("express-session")\
+// const Redis = require('ioredis');
+const redis = require('redis')
+// const connectRedis = require('connect-redis');
+import { createClient } from 'redis';
+const app = express();
+
 import router from './router/authRouter';
 
+const RedisStore = require("connect-redis").default;
+
+// const RedisStore = connectRedis(session)
+// const redisClient = new Redis({ host: 'localhost', port: 6379});
+// const redisClient = redis.createClient({ host: 'localhost', port: 6379});
+// const redisClient = redis.createClient({ host: 'localhost', port: 6379});
+
+const redisClient = createClient();
+redisClient.connect().catch(console.error);
+const sessionStore = new RedisStore({ client: redisClient });
+
 const server = require("http").createServer(app)
+
+redisClient.on('error', (err: Error)=>{
+    console.log("REDIS ERROR", err);  
+})
+
+
+redisClient.on('connect',(err:Error)=> {
+    console.log('CONNECTED TO REDIS SUCCESFULLY');
+})
 
 dotenv.config()
 
@@ -22,6 +45,7 @@ const io = new Server( server, {
     }
 })
 
+
 app.use(helmet());
 app.use(cors({
     origin:'http://localhost:5173',
@@ -30,8 +54,8 @@ app.use(cors({
 app.use(express.json());
 app.use( session({
     secret: process.env.COOKIE_SECRET,
-    // credentials: true,
     name: "sid",
+    store: sessionStore,
     resave: false,
     saveUninitialized: false,
     cookie: {

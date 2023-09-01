@@ -1,11 +1,12 @@
-// import { useContext } from 'react'
+import { useState } from 'react'
 import {useNavigate} from 'react-router'
 
 import { 
         VStack, 
         ButtonGroup,
         Heading,  
-        Button } from '@chakra-ui/react'
+        Button, 
+        Text} from '@chakra-ui/react'
 import { Formik, Form } from 'formik'
 
 import { Textfield } from './textfield'
@@ -15,7 +16,7 @@ import { useAccountContext } from '../../hooks/AccountContext'
 export const Login = () => {
 
     const { setUser } = useAccountContext()
-
+    const [ errorSigUp, setErrorSigUp ] = useState< null | any>(null)
     const navigate = useNavigate()
 
     const submitt = (values:any, actions:any) => {
@@ -41,10 +42,16 @@ export const Login = () => {
                 return res.json()
             })
             .then(data => { 
-                if(!data) return
-                // console.log(data);
+                if(!data) return;
+
                 setUser({...data})
-                navigate('/home')
+
+                if(data.status){
+                    setErrorSigUp(data.status)
+                }else if( data.loggedIn){
+                    // console.log(data);
+                    navigate('/home')
+                }
             })
     }
 
@@ -64,7 +71,7 @@ export const Login = () => {
             spacing="1rem"
         >
             <Heading> Log In</Heading>
-
+            <Text as="p" color="red.500"> { errorSigUp }</Text>
             <Textfield label="Username" name="name" placeholder="Enter username" autoComplete="off" type="text" />
             <Textfield label="Password" name="password" placeholder="Enter password" autoComplete="off" type="password" />
 

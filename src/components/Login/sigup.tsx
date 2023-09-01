@@ -1,11 +1,12 @@
-// import { useContext } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { 
     VStack, 
     ButtonGroup, 
     Heading,
-    Button } from '@chakra-ui/react'
+    Button, 
+    Text} from '@chakra-ui/react'
 import { Formik, Form } from 'formik'
 import { Textfield } from './textfield'
 import { ArrowBackIcon } from '@chakra-ui/icons'
@@ -18,7 +19,7 @@ export const Sigup = () => {
 
     const { setUser } = useAccountContext()
     // const context  = useContext(AccountContext)
-    
+    const [ errorSigUp, setErrorSigUp ] = useState< null | any>(null)
     const navigate = useNavigate()
 
     const submitt = (values:any, actions:any) => {
@@ -45,11 +46,15 @@ export const Sigup = () => {
         })
         .then(data => { 
             if(!data) return;
-            
-            console.log(data);
+            // console.log(data);
             setUser({...data})
-            // context?.setUser({...data})
-            navigate('/home')
+
+            if(data.status){
+                setErrorSigUp(data.status)
+            }else if(data.loggedIn){
+                // context?.setUser({...data})
+                navigate('/home')
+            }
         })
     }
 
@@ -70,7 +75,7 @@ export const Sigup = () => {
             spacing="1rem"
         >
         <Heading> Sig Up</Heading>
-
+            <Text as="p" color="red.500"> { errorSigUp }</Text>
             <Textfield label="Username" name="name" placeholder="Enter username" autoComplete="off" type="text" />
             <Textfield label="Email" name="email" placeholder="Enter email" autoComplete="off" type="email" />
             <Textfield label="Password" name="password" placeholder="Enter password" autoComplete="off" type="password" />
