@@ -13,7 +13,6 @@ const router = express.Router()
 router
     .route("/login")    
     .get( userLogin )
-    // .post( loginUser )
     .post(rateLimiter(60, 10) , loginUser)
     
 router.post("/signup", register)
