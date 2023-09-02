@@ -3,9 +3,8 @@ import prismadb from '../../models/prismadb'
 import {UserInterface} from '../../ts/interface'
 import { 
      loginValidation,
-     validationsRegister } from '../../controller/access'
-import session from 'express-session';
-// const {access} = require("../access")
+     validationsRegister } from '../../middleware/access'
+import { rateLimiter } from '../../middleware/rateLimiter';
 const {request, response, NextFunction} = require('express')
 
 const salt = bcryptjs.genSaltSync()
@@ -16,7 +15,7 @@ export const register = async(
     next: typeof NextFunction
 ) => {
     
-    validationsRegister(req, res, next);
+    // rateLimiter(req, res, next);
 
     const { name, email, password }: UserInterface = req.body;
 
@@ -58,6 +57,9 @@ export const register = async(
                 id: userr.idUser
 
             }
+
+            validationsRegister(req, res, next);
+
             return res.status(201).json({
                 loggedIn: true,
                 newUser
@@ -82,13 +84,14 @@ export const loginUser = async(
     next: typeof NextFunction
 ) => {
 
-    loginValidation(req, res, next)
     // console.log(req.session);
-    
+    // rateLimiter(req, res, next)
 
     const { name, password } = req.body
 
     try {
+
+        
 
         const potentialLogin = await prismadb.user.findFirst({
             where:{
@@ -115,36 +118,21 @@ export const loginUser = async(
             id: potentialLogin.idUser
         }
 
+        
+        rateLimiter(60, 10)
+        loginValidation(req, res, next)
+
         return res.status(200).json({
             loggedIn: true,
             user: potentialLogin.name
         })
     
+    
 
     } catch (error) {
-        next(error)        
+        next(error)  
     }
 
-}
-
-export const getAllUsers =async (
-    req:  typeof request,
-    res:  typeof response,
-    next: typeof NextFunction
-) => {
-
-
-    try {
-        
-        const users = await prismadb.user.findMany()
-
-        res.json({
-            msg:'Here all users',
-            users
-        })
-    } catch (error) {
-        next(error)
-    }
     
 }
 
@@ -173,3 +161,25 @@ export const userLogin = async (
         next(error)
     }
 }
+
+export const getAllUsers =async (
+    req:  typeof request,
+    res:  typeof response,
+    next: typeof NextFunction
+) => {
+
+
+    try {
+        
+        const users = await prismadb.user.findMany()
+
+        res.json({
+            msg:'Here all users',
+            users
+        })
+    } catch (error) {
+        next(error)
+    }
+    
+}
+

@@ -4,9 +4,7 @@ const dotenv = require('dotenv')
 const { Server } = require("socket.io")
 const helmet = require("helmet")
 const cors = require("cors")
-// const Redis = require('ioredis');
-const redis = require('redis')
-// const connectRedis = require('connect-redis');
+
 import { createClient } from 'redis';
 const app = express();
 
