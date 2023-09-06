@@ -4,8 +4,11 @@ import { Grid,
 import { SideBar } from "./sidebar"
 import { Chat } from './chat';
 import { FriendProvider } from "../../Providers/FriendsProvider";
+import useSocketSetup from "../../hooks/useSocketSetup";
 
 export const Home = () => {
+
+  useSocketSetup()
 
   return (
     

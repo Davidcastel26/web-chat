@@ -119,7 +119,7 @@ export const loginUser = async(
         }
 
         
-        rateLimiter(60, 10)
+        // rateLimiter(60, 10)
         loginValidation(req, res, next)
 
         return res.status(200).json({
