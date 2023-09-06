@@ -4,14 +4,14 @@ import { FriendContextType,
 
 
 export const dataFriends: FriendType[] = [
-    {
-        user: "David",
-        connected: true
-    },
-    {
-        user: "Juanito",
-        connected: false
-    }
+    // {
+    //     user: "David",
+    //     connected: true
+    // },
+    // {
+    //     user: "Juanito",
+    //     connected: false
+    // }
 ]
 
 export const FriendContext = createContext<FriendContextType >( {} as FriendContextType )

@@ -14,3 +14,8 @@ export interface FriendContextType{
     friendList: FriendType[]
     setFriendList: (friendList: any) => void 
 }
+
+export interface AddFriendModalProps{
+    isOpen: boolean
+    onClose: () => void
+}

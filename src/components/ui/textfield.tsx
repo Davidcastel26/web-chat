@@ -11,12 +11,6 @@ import { Input } from '@chakra-ui/input'
 
 interface TextFiledProps {
     label: string
-    // props: {
-    //     name:any
-    //     placeholder:string
-    //     autoComplete:string
-    //     type:string
-    // }
     name:string
     placeholder:string
     autoComplete:string
@@ -55,21 +49,3 @@ export const Textfield: React.FC<TextFiledProps> = (
     </FormControl>
   )
 }
-
-
-/*
-<FormControl isInvalid={formik.errors.username && formik.touched.username}>
-                    <FormLabel fontSize="lg"> Username </FormLabel>
-                    <Input 
-                        // name='username' 
-                        placeholder='Enter username'
-                        autoComplete='off'
-                        size="lg"
-                        // value={formik.values.username }
-                        // onChange={ formik.handleChange }
-                        // onBlur={ formik.handleBlur }
-                        {...formik.getFieldProps("username")}
-                    />
-                    <FormErrorMessage>{formik.errors.username}</FormErrorMessage>
-                </FormControl>
-*/

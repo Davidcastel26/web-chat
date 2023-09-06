@@ -7,10 +7,12 @@ import { Divider,
 import { Button, 
         Circle,
         Tab, 
-        TabList } from "@chakra-ui/react"
+        TabList, 
+        useDisclosure} from "@chakra-ui/react"
 // import { FriendContext,useFriendContext } from "../../hooks/FriendsContext"
 import { useContext } from "react"
 import { FriendContext } from "../../Context/FriendsContext"
+import { AddFriendModal } from "../ui/AddFriendModal"
 // import { useContext } from "react"
 // import { useFriendContext } from "./chat"
 
@@ -19,15 +21,15 @@ import { FriendContext } from "../../Context/FriendsContext"
 export const SideBar = () => {
 
     // const {  } = useFriendContext() 
-    const {friendList, setFriendList} = useContext(FriendContext)
-    // const {friendList, setFriendList} = useFriendContext()
-   return (
+    const { friendList, setFriendList } = useContext(FriendContext)
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+   return (<>
     <VStack py="1.4rem">
         <HStack justify="space-evenly" w="100%">
             <Heading size="md"> Add Friend</Heading>
-            <Button>
+            <Button onClick={onOpen}>
                 <ChatIcon />
-
             </Button>
         </HStack>
         <Divider />
@@ -45,5 +47,6 @@ export const SideBar = () => {
             }
         </VStack>
     </VStack>
-  )
+    <AddFriendModal isOpen={isOpen} onClose={onClose}/>
+    </>)
 }

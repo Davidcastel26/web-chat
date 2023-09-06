@@ -28,6 +28,9 @@ export const formSchema4Login = Yup.object({
         .max(18, "Password too long not accepted in the server")
 })
 
-// module.exports = {
-//     formSchema
-// }
+export const friendSchema = Yup.object({
+    friendName: Yup.string()
+        .required("Friend name is required")
+        .min(2, "too short not accepted")
+        .max(12, 'invalid friend name')
+})

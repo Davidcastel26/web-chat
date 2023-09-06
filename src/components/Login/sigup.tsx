@@ -8,7 +8,7 @@ import {
     Button, 
     Text} from '@chakra-ui/react'
 import { Formik, Form } from 'formik'
-import { Textfield } from './textfield'
+import { Textfield } from '../ui/textfield'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 
 import { formSchema } from '../../../common-formSchema'
