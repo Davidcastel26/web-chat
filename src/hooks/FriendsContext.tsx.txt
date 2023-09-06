@@ -1,0 +1,58 @@
+import React, { 
+    createContext,
+    useState, 
+    useContext,
+    ReactNode, 
+    // useEffect
+ } from 'react'
+import { FriendProviderProps } from '../interfaces/frinedsInterface';
+
+interface FriendType{
+user: string
+connected: boolean
+}
+
+interface FriendContextType{
+friendList: FriendType[]
+setFriendList: (friendList: any) => void 
+}
+
+const dataFriends: FriendType[] = [
+    {
+        user: "David",
+        connected: true
+    },
+    {
+        user: "Juanito",
+        connected: false
+    }
+]
+
+// export const FriendContext = createContext<FriendContextType | [] | undefined>( undefined )
+export const FriendContext = createContext<FriendContextType >( {} as FriendContextType )
+
+
+export const useFriendContext = () => {
+const context = useContext(FriendContext)
+if (context === undefined) {
+    throw new Error('useAccountContext must be used within an AccountProvider');
+  }
+  return context;
+}
+
+// export const FriendProvider: React.FC<FriendProviderProps> = ({children}) => {
+export const FriendProvider = ({children}: FriendProviderProps) => {
+
+    const [friendList, setFriendList ] = useState<FriendContextType>()
+
+    const contextValue: FriendContextType = {
+        friendList: friendList?.friendList || dataFriends,
+        setFriendList   
+    }
+
+    return (
+        <FriendContext.Provider value={contextValue}>
+            {children}
+        </FriendContext.Provider>
+    )
+}

@@ -3,10 +3,7 @@ import { Grid,
         Tabs } from "@chakra-ui/react"
 import { SideBar } from "./sidebar"
 import { Chat } from './chat';
-// import { useState } from "react"
-// import { useState, createContext, useContext } from "react"
-// import { }
-import { FriendProvider } from "../../hooks/FriendsContext";
+import { FriendProvider } from "../../Providers/FriendsProvider";
 
 export const Home = () => {
 

@@ -1,6 +1,5 @@
 import { ChatIcon } from "@chakra-ui/icons"
 import { Divider, 
-        
         HStack, 
         Heading, 
         VStack,
@@ -9,8 +8,9 @@ import { Button,
         Circle,
         Tab, 
         TabList } from "@chakra-ui/react"
-import { FriendContext, useFriendContext } from "../../hooks/FriendsContext"
+// import { FriendContext,useFriendContext } from "../../hooks/FriendsContext"
 import { useContext } from "react"
+import { FriendContext } from "../../Context/FriendsContext"
 // import { useContext } from "react"
 // import { useFriendContext } from "./chat"
 
@@ -19,7 +19,8 @@ import { useContext } from "react"
 export const SideBar = () => {
 
     // const {  } = useFriendContext() 
-    const {set} = useContext(FriendContext)
+    const {friendList, setFriendList} = useContext(FriendContext)
+    // const {friendList, setFriendList} = useFriendContext()
    return (
     <VStack py="1.4rem">
         <HStack justify="space-evenly" w="100%">
@@ -31,18 +32,16 @@ export const SideBar = () => {
         </HStack>
         <Divider />
         <VStack as={TabList}>
-            {/* <HStack as={Tab}>
-                <Circle bg="red.500" size="20px"/>
-                 <SkeletonCircle size='10' /> 
-                <Text>Friend's Name</Text>
-            </HStack>
-            <HStack as={Tab}>
-                <Circle bg="green.500" size="20px"/>
-                <Text>Friend's Name</Text>
-            </HStack> */}
             {
                 // friendList.map()
-                // friend[user].map()
+                friendList.map((friend) => (
+                    
+                    <HStack key={friend.user} as={Tab}>
+                        <Circle bg={friend.connected ? "green.500" : "red.500"} size="20px"/>
+                        <Text>{friend.user}</Text>
+                    </HStack>
+                    
+                ))
             }
         </VStack>
     </VStack>
