@@ -1,4 +1,5 @@
 const express = require('express');
+import { AuthorizeUserIO } from '../src/middleware/socketAuthorizeUser';
 import { corsConfig, sessionMiddleware, wrap } from '../src/middleware/serverMiddlewareSession';
 
 const { Server } = require("socket.io")
@@ -23,12 +24,12 @@ app.use( sessionMiddleware )
 app.use("/auth", router)
 
 io.use(wrap(sessionMiddleware))
+io.use(AuthorizeUserIO)
 io.on('connect', (socket: any) => {
-    console.log(socket.id);
-    
+    console.log(` --- USER ID --- ${socket.user.friendId}`);
     console.log(socket.request.session.user.name);
 })
 
 server.listen(port, () =>{
-    console.log(`Server listening on port ${port}`);
+    console.log(`----- SERVER LISTENING ON PORT ${port} ------`);
 })

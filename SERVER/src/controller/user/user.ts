@@ -54,7 +54,8 @@ export const register = async(
 
             req.session.user = { 
                 name: userr.name,
-                id: userr.idUser
+                id: userr.idUser,
+                friendId: userr.friendId
 
             }
 
@@ -91,8 +92,6 @@ export const loginUser = async(
 
     try {
 
-        
-
         const potentialLogin = await prismadb.user.findFirst({
             where:{
                 name
@@ -106,7 +105,8 @@ export const loginUser = async(
         }
 
         const isValidPass = await bcryptjs.compareSync(
-            password, potentialLogin.password
+            password, 
+            potentialLogin.password
         )
     
         if(!isValidPass){
@@ -115,7 +115,8 @@ export const loginUser = async(
 
         req.session.user = {
             name: potentialLogin.name,
-            id: potentialLogin.idUser
+            id: potentialLogin.idUser,
+            friendId: potentialLogin.friendId
         }
 
         

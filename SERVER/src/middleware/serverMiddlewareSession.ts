@@ -11,12 +11,12 @@ redisClient.connect().catch(console.error);
 export const sessionStore = new RedisStore({ client: redisClient });
 
 redisClient.on('error', (err: Error)=>{
-    console.log("REDIS ERROR", err);  
+    console.log("----- REDIS ERROR ----", err);  
 })
 
 
 redisClient.on('connect',(err:Error)=> {
-    console.log('CONNECTED TO REDIS SUCCESFULLY');
+    console.log('----- CONNECTED TO REDIS SUCCESFULLY -----');
 })
 
 export const sessionMiddleware = session({

@@ -2,7 +2,10 @@ import { NextFunction, Request, Response } from 'express'
 import redisClient from '../models/redis'
 
 
-export const rateLimiter = (secondsLimit:number, limitAmount:number) => async (
+export const rateLimiter = (
+    secondsLimit:number, 
+    limitAmount:number
+) => async (
     req:   Request,
     res:   Response,
     next:  NextFunction

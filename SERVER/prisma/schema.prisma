@@ -8,8 +8,13 @@ datasource db {
 }
 
 model User {
-  idUser   String @id @default(uuid())
+  idUser   String @unique @default(uuid())
   name     String @unique
   email    String @unique
   password String
+  friendId String @unique @default(uuid())
+
+  // @@id([idUser, friendId])
+  @@index([idUser])
+  @@index([friendId])
 }
