@@ -1,11 +1,12 @@
 // const session = require('express-session');
-const RedisStore = require("connect-redis").default;
+// const RedisStore = require("connect-redis").default;
+import RedisStore from "connect-redis";
 import session from 'express-session';
 import { createClient } from 'redis';
 const dotenv = require('dotenv')
 export const redisClient = createClient();
 dotenv.config()
-
+// RedisStore
 redisClient.connect().catch(console.error);
 
 export const sessionStore = new RedisStore({ client: redisClient });

@@ -1,15 +1,14 @@
-const express = require('express');
-import { AuthorizeUserIO } from '../src/middleware/socketAuthorizeUser';
+import express from 'express'
+import { Server, Socket }  from "socket.io"
+import helmet from "helmet"
+import cors from "cors"
+import router from './router/authRouter';
+
+import { AuthorizeUserIO, InitializeUser, addFriend } from '../src/middleware/socketAuthorizeUser';
 import { corsConfig, sessionMiddleware, wrap } from '../src/middleware/serverMiddlewareSession';
 
-const { Server } = require("socket.io")
-const helmet = require("helmet")
-const cors = require("cors")
-import router from './router/authRouter';
 const app = express();
 const server = require("http").createServer(app)
-
-
 
 let port = process.env.PORT || '8080'
 
@@ -25,9 +24,11 @@ app.use("/auth", router)
 
 io.use(wrap(sessionMiddleware))
 io.use(AuthorizeUserIO)
-io.on('connect', (socket: any) => {
-    console.log(` --- USER ID --- ${socket.user.friendId}`);
-    console.log(socket.request.session.user.name);
+io.on('connect', (socket: Socket) => {
+    InitializeUser(socket)
+    socket.on('client:add_friend', (friendName:string, cb:Function) =>{
+        addFriend(socket, friendName, cb)
+    })
 })
 
 server.listen(port, () =>{
