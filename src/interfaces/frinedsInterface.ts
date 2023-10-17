@@ -1,6 +1,6 @@
 // import {ReactNode} from 'react'
 
- export interface FriendType{
+export interface FriendType{
 user: string
 connected: boolean
 }

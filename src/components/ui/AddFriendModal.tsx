@@ -27,26 +27,27 @@ export const AddFriendModal= ({ isOpen, onClose}:AddFriendModalProps) => {
         },[onClose]
     )
 
-    const {setFriendList} = useContext(FriendContext)
+    const {friendList, setFriendList} = useContext(FriendContext)
 
     const submitFormFriend = (values:any, actions:any) => {
         // alert(JSON.stringify(values, null, 2))
 
-        // values.name
+        console.log(friendList)
+        
         socket.emit(
             'client:add_friend', 
-            values.friendName,
+            values.name,
             ({errorMessage, done}:any) => {
                 if(done){
-                    setFriendList( (c:any) => [values.friendName, ...c])
+                    setFriendList(() => [values.name, ...friendList])
                     closeModal()
                     return;
                 }
                 setError(errorMessage)
             }
         )
-        onClose()
-        actions.resetForm()
+        // onClose()
+        // actions.resetForm()
     }
 
   return (
@@ -60,7 +61,7 @@ export const AddFriendModal= ({ isOpen, onClose}:AddFriendModalProps) => {
             <ModalHeader>Add a friend</ModalHeader>
             <ModalCloseButton />
             <Formik
-             initialValues={{friendName:''}}
+             initialValues={{name:''}}
              onSubmit={submitFormFriend}
              validationSchema={friendSchema}
             >
@@ -77,7 +78,7 @@ export const AddFriendModal= ({ isOpen, onClose}:AddFriendModalProps) => {
                     label='friends name'
                     placeholder='Enter friends username'
                     autoComplete='off'
-                    name="friendName" type='text'                
+                    name="name" type='text'                
                 />
             </ModalBody>
             <ModalFooter>

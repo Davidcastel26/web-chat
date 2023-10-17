@@ -29,7 +29,7 @@ export const formSchema4Login = Yup.object({
 })
 
 export const friendSchema = Yup.object({
-    friendName: Yup.string()
+    name: Yup.string()
         .required("Friend name is required")
         .min(2, "too short not accepted")
         .max(12, 'invalid friend name')

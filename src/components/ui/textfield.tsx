@@ -15,7 +15,6 @@ interface TextFiledProps {
     placeholder:string
     autoComplete:string
     type:string
-    
 }
 
 export const Textfield: React.FC<TextFiledProps> = (

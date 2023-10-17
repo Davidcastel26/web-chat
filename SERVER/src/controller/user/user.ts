@@ -1,18 +1,18 @@
 import bcryptjs from 'bcryptjs'
 import prismadb from '../../models/prismadb'
-import {UserInterface} from '../../ts/interface'
+import { UserInterface, CustomRequest } from '../../ts/interface';
 import { 
      loginValidation,
      validationsRegister } from '../../middleware/access'
 import { rateLimiter } from '../../middleware/rateLimiter';
-const {request, response, NextFunction} = require('express')
+import {Request, Response, NextFunction} from 'express'
 
 const salt = bcryptjs.genSaltSync()
 
 export const register = async(
-    req: typeof request,
-    res: typeof response,
-    next: typeof NextFunction
+    req: CustomRequest,
+    res: Response,
+    next: NextFunction
 ) => {
     
     // rateLimiter(req, res, next);
@@ -56,7 +56,6 @@ export const register = async(
                 name: userr.name,
                 id: userr.idUser,
                 friendId: userr.friendId
-
             }
 
             validationsRegister(req, res, next);
@@ -80,9 +79,9 @@ export const register = async(
 }
 
 export const loginUser = async(
-    req: typeof request,
-    res: typeof response,
-    next: typeof NextFunction
+    req: CustomRequest,
+    res: Response,
+    next: NextFunction
 ) => {
 
     // console.log(req.session);
@@ -138,9 +137,9 @@ export const loginUser = async(
 }
 
 export const userLogin = async (
-    req:  typeof request,
-    res:  typeof response,
-    next: typeof NextFunction
+    req: CustomRequest,
+    res: Response,
+    next: NextFunction
 ) => {
 
     const loggedUser = req.session
@@ -164,9 +163,9 @@ export const userLogin = async (
 }
 
 export const getAllUsers =async (
-    req:  typeof request,
-    res:  typeof response,
-    next: typeof NextFunction
+    req: CustomRequest,
+    res: Response,
+    next: NextFunction
 ) => {
 
 

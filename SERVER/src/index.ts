@@ -10,7 +10,7 @@ import { corsConfig, sessionMiddleware, wrap } from '../src/middleware/serverMid
 const app = express();
 const server = require("http").createServer(app)
 
-let port = process.env.PORT || '8080'
+const port = process.env.PORT || '8080'
 
 const io = new Server( server, {
     cors: corsConfig
@@ -26,9 +26,11 @@ io.use(wrap(sessionMiddleware))
 io.use(AuthorizeUserIO)
 io.on('connect', (socket: Socket) => {
     InitializeUser(socket)
-    socket.on('client:add_friend', (friendName:string, cb:Function) =>{
-        addFriend(socket, friendName, cb)
+    socket.on('client:add_friend', (name:string, cb:Function) =>{
+        addFriend(socket, name, cb)
     })
+    // .then( () => {
+    // })
 })
 
 server.listen(port, () =>{

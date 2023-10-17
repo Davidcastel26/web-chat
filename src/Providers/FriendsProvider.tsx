@@ -4,7 +4,7 @@ import { FriendContext, dataFriends } from "../Context/FriendsContext"
 
 export const FriendProvider = ({children}: FriendProviderProps) => {
 
-    const [friendList, setFriendList ] = useState<FriendContextType>()
+    const [friendList, setFriendList ] = useState<any>({})
 
     const contextValue: FriendContextType = {
         friendList: friendList?.friendList || dataFriends,
